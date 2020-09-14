@@ -44,4 +44,4 @@ buck-out/
 *.d.ts
 !.eslintrc.js
 !.prettierrc.js
-*.js
+# *.js

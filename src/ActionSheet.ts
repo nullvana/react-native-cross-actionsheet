@@ -1,7 +1,6 @@
 import { ActionSheetIOS, ActionSheetIOSOptions, Platform } from 'react-native'
-import { ActionSheetAndroidModule } from './ActionSheetAndroidModule'
 import { ActionSheetAndroid } from './ActionSheetAndroid'
-import { ActionSheetCancelledError } from './ActionSheetCancelledError'
+import { ActionSheetAndroidModule } from './ActionSheetAndroidModule'
 
 export type ActionSheetOption = {
   destructive?: boolean
@@ -14,10 +13,10 @@ export type ActionSheetConfig = {
   message?: string
   options: ActionSheetOption[]
   cancel?:
-    {
-      text?: string
-      onPress?: () => void | Promise<void>
-    }
+    | {
+        text?: string
+        onPress?: () => void | Promise<void>
+      }
     | false
   tintColor?: string
   anchor?: number
