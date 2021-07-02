@@ -11,12 +11,12 @@ import { ActionSheetIOS, Platform } from 'react-native';
 import { ActionSheetAndroid } from './ActionSheetAndroid';
 import { ActionSheetAndroidModule } from './ActionSheetAndroidModule';
 function androidOptions(cfg) {
-    var _a, _b, _c, _d, _e;
+    var _a, _b, _c, _d, _e, _f, _g, _h;
     return __awaiter(this, void 0, void 0, function* () {
-        const index = yield ActionSheetAndroidModule.options((_a = cfg.title) !== null && _a !== void 0 ? _a : null, (_b = cfg.message) !== null && _b !== void 0 ? _b : null, cfg.cancel === false ? null : ((_c = cfg.cancel) === null || _c === void 0 ? void 0 : _c.text) ? cfg.cancel.text : 'Cancel', cfg.options.map((it) => it.text), cfg.options.findIndex((it) => it.destructive), (_d = cfg.tintColor) !== null && _d !== void 0 ? _d : '#222222');
+        const index = yield ActionSheetAndroidModule.options((_a = cfg.title) !== null && _a !== void 0 ? _a : null, (_b = cfg.message) !== null && _b !== void 0 ? _b : null, cfg.cancel === false ? null : ((_c = cfg.cancel) === null || _c === void 0 ? void 0 : _c.text) ? cfg.cancel.text : 'Cancel', cfg.options.map((it) => it.text), cfg.options.findIndex((it) => it.destructive), (_d = cfg.tintColor) !== null && _d !== void 0 ? _d : '#222222', (_e = cfg.backgroundColor) !== null && _e !== void 0 ? _e : '#DDDDDD', (_f = cfg.textColor) !== null && _f !== void 0 ? _f : '#222222', (_g = cfg.borderColor) !== null && _g !== void 0 ? _g : '#DDDDDD');
         if (index === -1) {
             if (cfg.cancel && cfg.cancel.onPress) {
-                yield ((_e = cfg.cancel) === null || _e === void 0 ? void 0 : _e.onPress());
+                yield ((_h = cfg.cancel) === null || _h === void 0 ? void 0 : _h.onPress());
             }
         }
         else {

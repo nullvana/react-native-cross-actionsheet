@@ -8,6 +8,9 @@ export interface ActionSheetAndroidOptions {
   cancelButtonIndex?: number
   destructiveButtonIndex?: number
   tintColor?: string
+  backgroundColor?: string
+  textColor?: string
+  borderColor?: string
 }
 
 export const ActionSheetAndroid = new (class {
@@ -28,7 +31,10 @@ export const ActionSheetAndroid = new (class {
         options.cancelButtonIndex != null ? options.options[options.cancelButtonIndex] : null,
         optionsWithoutCancel,
         destructiveButtonIndex,
-        options.tintColor ?? '#222222'
+        options.tintColor ?? '#222222',
+        options.backgroundColor ?? '#DDDDDD',
+        options.textColor ?? '#222222',
+        options.borderColor ?? '#DDDDDD'
       ).then((index) => {
         if (options.cancelButtonIndex != null) {
           if (index === -1) {

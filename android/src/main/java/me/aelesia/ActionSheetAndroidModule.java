@@ -1,7 +1,10 @@
 package me.aelesia;
 
 import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.ShapeDrawable;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -35,23 +38,26 @@ public class ActionSheetAndroidModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void options(String title, String message, String cancel, ReadableArray option, int destructiveIndex, String tintColor, Promise promise) {
+    public void options(String title, String message, String cancel, ReadableArray option, int destructiveIndex,
+            String tintColor, String backgroundColor, String textColor, String borderColor, Promise promise) {
         if (!isShowingDialog) {
             List<Object> messageStrList = option.toArrayList();
             List<String> strList = new ArrayList<String>();
 
-            for (Object msg: messageStrList) {
+            for (Object msg : messageStrList) {
                 if (msg instanceof String) {
                     strList.add((String) msg);
                 }
             }
-
 
             BottomSheetDialog dialog = new BottomSheetDialog(getCurrentActivity(), R.style.BottomSheetDialog);
             dialog.setContentView(R.layout.actionsheet);
 
             if (title != null || message != null) {
                 LinearLayout header = dialog.findViewById(R.id.actionsheet_header);
+                GradientDrawable d = (GradientDrawable) ((LinearLayout) header.getParent()).getBackground();
+                d.setColorFilter(Color.parseColor(backgroundColor), PorterDuff.Mode.SRC_ATOP);
+
                 header.setPadding(0, 24, 0, 24);
                 if (title != null) {
                     TextView titleText = dialog.findViewById(R.id.actionsheet_title);
@@ -77,34 +83,42 @@ public class ActionSheetAndroidModule extends ReactContextBaseJavaModule {
             }
 
             ListView listView = dialog.findViewById(R.id.actionsheet_list);
+            listView.setDivider(new ColorDrawable(Color.parseColor(borderColor)));
+            listView.setDividerHeight(1);
             if (title != null || message != null) {
                 View border = new View(reactContext);
-                border.setBackgroundColor(Color.parseColor("#DDDDDD"));
-                border.setLayoutParams(new android.widget.AbsListView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 1));
+                // border.setBackgroundColor(Color.parseColor(borderColor));
+                border.setLayoutParams(
+                        new android.widget.AbsListView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 1));
                 listView.addHeaderView(border);
             }
-            ActionSheetListAdapter adapter = new ActionSheetListAdapter(reactContext, strList, destructiveIndex, tintColor, position -> {
-                dialog.dismiss();
-                isShowingDialog = false;
-                promise.resolve(position);
-            });
+            ActionSheetListAdapter adapter = new ActionSheetListAdapter(reactContext, strList, destructiveIndex,
+                    tintColor, backgroundColor, textColor, borderColor, position -> {
+                        dialog.dismiss();
+                        isShowingDialog = false;
+                        promise.resolve(position);
+                    });
             listView.setAdapter(adapter);
+            listView.setBackgroundColor(Color.parseColor(backgroundColor));
 
             if (cancel != null) {
                 View border = new View(reactContext);
-                border.setBackgroundColor(Color.parseColor("#DDDDDD"));
-                border.setLayoutParams(new android.widget.AbsListView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 6));
+                // border.setBackgroundColor(Color.parseColor(borderColor));
+                border.setLayoutParams(
+                        new android.widget.AbsListView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 6));
                 listView.addFooterView(border);
 
                 dialog.findViewById(R.id.actionsheet_list);
                 TextView cancelText = dialog.findViewById(R.id.actionsheet_cancel);
                 try {
                     cancelText.setTextColor(Color.parseColor(tintColor));
-                } catch(Exception e) {
-                    cancelText.setTextColor(Color.parseColor("#222222"));
+                } catch (Exception e) {
+                    cancelText.setTextColor(Color.parseColor(textColor));
                 }
                 cancelText.setText(cancel);
+                cancelText.setBackgroundColor(Color.parseColor(backgroundColor));
                 LinearLayout cancelView = dialog.findViewById(R.id.actionsheet_cancel_view);
+                cancelView.setBackgroundColor(Color.parseColor(backgroundColor));
                 cancelView.setVisibility(View.VISIBLE);
                 cancelView.setOnClickListener(v -> {
                     dialog.dismiss();

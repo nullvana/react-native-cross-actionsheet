@@ -7,7 +7,10 @@ interface ActionSheetAndroidModule {
     cancel: string | null,
     options: string[],
     destructiveIndex: number,
-    tintColor: string
+    tintColor: string,
+    backgroundColor: string,
+    textColor: string,
+    borderColor: string
   ) => Promise<number>
 }
 

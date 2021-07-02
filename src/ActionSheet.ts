@@ -19,6 +19,9 @@ export type ActionSheetConfig = {
       }
     | false
   tintColor?: string
+  backgroundColor?: string
+  textColor?: string
+  borderColor?: string
   anchor?: number
 }
 
@@ -29,7 +32,10 @@ async function androidOptions(cfg: ActionSheetConfig) {
     cfg.cancel === false ? null : cfg.cancel?.text ? cfg.cancel.text : 'Cancel',
     cfg.options.map((it) => it.text),
     cfg.options.findIndex((it) => it.destructive),
-    cfg.tintColor ?? '#222222'
+    cfg.tintColor ?? '#222222',
+    cfg.backgroundColor ?? '#DDDDDD',
+    cfg.textColor ?? '#222222',
+    cfg.borderColor ?? '#DDDDDD'
   )
   if (index === -1) {
     if (cfg.cancel && cfg.cancel.onPress) {
